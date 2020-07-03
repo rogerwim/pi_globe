@@ -41,7 +41,7 @@ def Main():
 	print(line1,"\n",line2,"\n",line3)
 	s = satelite.load(line1,line2,line3)
 	for i in range(20):
-		pos = satelite.get_sat_pos(ephem.Moon())
+		pos = satelite.get_sat_pos(s)
 		print(pos[0],pos[1])
 		time.sleep(1)
 	Main()
