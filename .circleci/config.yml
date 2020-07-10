@@ -8,11 +8,9 @@ jobs:
     executor: python/default
     steps:
       - checkout
-      - python/load-cache
       - python/install-deps
-      - python/save-cache
       - run:
-          command: ./manage.py test
+          command: ./unit_test.py
           name: Test
 
 workflows:
