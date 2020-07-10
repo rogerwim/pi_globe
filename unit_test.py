@@ -1,2 +1,4 @@
 #!/usr/local/bin/python3
-assert 1==2
+import satelite
+a = satelite.load()
+satelite.get_sat_pos(a)
