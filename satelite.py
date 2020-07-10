@@ -15,7 +15,7 @@ def load(line1=None,line2=None,line3=None):
 	satellite = Satrec.twoline2rv(line2, line3)
 	yr = satellite.epochyr
 	a = days2mdhms(satellite.epochyr, satellite.epochdays)
-	yr = int("20" + str(yr))
+	yr = int("a20" + str(yr))
 	now = datetime.datetime.now()
 	last_r = datetime.datetime(yr,a[0],a[1],a[2])
 	delta = datetime.timedelta(days=14)
