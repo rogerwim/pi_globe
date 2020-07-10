@@ -1,2 +1,2 @@
-#!/usr/lib/python3
+#!/usr/local/bin/python3
 assert 1==2
