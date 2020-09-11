@@ -24,3 +24,17 @@ def turn(ang):
 			test.write(0,0,0,1,0,0,0,0)
 			time.sleep(0.05)
 	test.write(0,0,0,0,0,0,0,1)
+def turn2(ang):
+        steps = math.floor((s_per_t_1/360)*ang)
+        if steps < 0:
+                steps = -steps
+                for i in range(steps):
+                        test.write(0,0,0,0,0,0,1,0)
+                        time.sleep(0.05)
+                steps = -steps
+        if steps > 0:
+                for i in range(steps):
+                        test.write(0,0,0,0,0,1,0,0)
+                        time.sleep(0.05)
+        test.write(0,0,0,0,0,0,0,1)
+
