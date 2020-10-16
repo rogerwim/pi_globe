@@ -38,8 +38,8 @@ def c(d, m, s):
 		return dd
 def get_sat_pos(sat):
 	sat.compute()
-	a = str(sat.sublong)
-	b = str(sat.sublat)
+	a = str(sat.sublat)
+	b = str(sat.sublong)
 	a = a.split(":")
 	b = b.split(":")
 	a = c(a[0],a[1],a[2])

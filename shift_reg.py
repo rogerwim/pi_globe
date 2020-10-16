@@ -1,4 +1,4 @@
-import test
+import pins as test
 import time
 def set(strobe,data,clock):
 	test.write(strobe,data,clock,0,0,0,0,0)

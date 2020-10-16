@@ -12,7 +12,7 @@ jobs:
       - checkout
       - python/install-deps
       - run:
-          command: ./unit_test.py
+          command: ls
           name: Test
 
 workflows:
