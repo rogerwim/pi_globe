@@ -12,7 +12,6 @@ for i in range(0,len(a)-1,3):
 	line1s.append(a[i+0].strip())
 	line2s.append(a[i+1].strip())
 	line3s.append(a[i+2].strip())
-print("found:",len(line1s),"satelites using tle.txt")
 c = []
 def setup_list():
 	global c
@@ -37,12 +36,10 @@ def filter_list(filt):
 def track(sate):
 	for a in c:
 		if a[1] == int(sate):
-			print("this is", a[0])
 			temp = a[1]
 	line1 = line1s[temp]
 	line2 = line2s[temp]
 	line3 = line3s[temp]
-	print(line1,"\n",line2,"\n",line3)
 	s = satelite.load(line1,line2,line3)
 	pos = satelite.get_sat_pos(s)
 	return (pos[0],pos[1])

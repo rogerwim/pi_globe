@@ -20,7 +20,6 @@ def load(line1=None,line2=None,line3=None):
 	last_r = datetime.datetime(yr,a[0],a[1],a[2])
 	delta = datetime.timedelta(days=14)
 	max_datetime = delta + last_r
-	print(now,last_r,max_datetime)
 	if now > max_datetime:
 		print("running ./tle.sh")
 		error_code = os.system("./tle.sh")
