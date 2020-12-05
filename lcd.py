@@ -1,3 +1,4 @@
+# TODO pass laser through to pins.py
 import shift_reg
 def set(rs,d7,d6,d5,d4):
 	shift_reg.shift([0,0,0,0,0,0])

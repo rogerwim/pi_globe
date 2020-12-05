@@ -1,7 +1,8 @@
-import pins as test
+# TODO pass laser through to pins.py
+import pins
 import time
 def set(strobe,data,clock):
-	test.write(strobe,data,clock,0,0,0,0,0)
+	pins.write(strobe,data,clock)
 def shift_out(bit):
 	set(0,0,0)
 	time.sleep(0.0001)
