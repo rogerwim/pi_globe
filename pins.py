@@ -4,6 +4,7 @@ def setup(serial):
 	s = serial
 laser = 0
 def write(pin2=0,pin3=0,pin4=0,motor1_forward=0,motor1_reverse=0,motor2_forward=0,motor2_reverse=0,motor_stop=0,laser_on=0,laser_off=0):
+	global laser
 	if laser_on == 1:
 		laser = 1
 	if laser_off == 1:
@@ -21,8 +22,14 @@ def write(pin2=0,pin3=0,pin4=0,motor1_forward=0,motor1_reverse=0,motor2_forward=
 	z += motor2_reverse << 6
 	y += motor_stop << 0
 	y += laser << 1
-	print(z)
+	print(bytes([y]))
 	print(bytes([z]))
 	s.write(bytes([z]))
 	s.write(bytes([y]))
 	s.flush()
+def get():
+	global laser
+	return laser
+def set(la):
+	global laser
+	laser = la
