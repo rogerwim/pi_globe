@@ -1,7 +1,6 @@
 import pins as test
 import time
 import math
-angle = 0
 steps_t = 0
 angle_t = 0
 s_per_t_1 = 200
@@ -10,7 +9,6 @@ def setup(ser):
 def turn(ang):
 	global angle_t
 	global steps_t
-	global angle
 	if ang >= 0:
 		steps = math.floor((s_per_t_1/360)*ang)
 	if ang < 0:
