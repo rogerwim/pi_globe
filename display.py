@@ -6,14 +6,14 @@ import tkinter as tk
 import sys
 import getopt
 import laser
-motor_mode = True # false = press = execute release = stop, true = seprate buttons
-s = serial.Serial("/dev/ttyACM0",115200, timeout=1)
+#s = serial.Serial("/dev/ttyACM0",115200, timeout=1) # real serial
+s = serial.Serial("/dev/ttyS0",115200, timeout=1) # fake for testing
 laser.setup(s)
 motor.setup(s)
 version = "v1.0"
 laser_status = False
 # can have dual tags, keep that in mind, might break stuff later
-args,_ = getopt.getopt(sys.argv[1:], "dhv", ["debug","help","version"])
+args,_ = getopt.getopt(sys.argv[1:], "dhvu", ["debug","help","version","unsafe"])
 debug = False
 for argument in args:
 	parsed = argument[:1][0]
@@ -25,11 +25,16 @@ for argument in args:
 		print("-h,--help print this help and exit")
 		print("-v,--version print version and exit")
 		print("-d,--debug enable debug mode")
+		print("-u,--unsafe diffent motor mode with start stop buttons, no deadmans switch")
 		print("things like -dh are supported")
 		exit()
 	if parsed == "-v" or parsed == "--version":
 		print("version:", version)
 		exit()
+	if parsed == "-u" or parsed == "--unsafe":
+		motor_mode = True # false = press = execute release = stop, true = seprate buttons
+	else:
+		motor_mode = False # false = press = execute release = stop, true = seprate buttons
 root = tk.Tk()
 root.title("globe GUI")
 frame = tk.Frame(root)

@@ -22,8 +22,6 @@ def write(pin2=0,pin3=0,pin4=0,motor1_forward=0,motor1_reverse=0,motor2_forward=
 	z += motor2_reverse << 6
 	y += motor_stop << 0
 	y += laser << 1
-	print(bytes([y]))
-	print(bytes([z]))
 	s.write(bytes([z]))
 	s.write(bytes([y]))
 	s.flush()

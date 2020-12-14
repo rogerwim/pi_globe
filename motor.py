@@ -1,18 +1,25 @@
 import pins as test
 import time
 import math
-angle = 0
 steps_t = 0
+angle_t = 0
 s_per_t_1 = 200
 def setup(ser):
 	test.setup(ser)
 def turn(ang):
-	global angle
+	global angle_t
 	global steps_t
-	steps = math.floor((s_per_t_1/360)*ang)
-	angle += ang
+	if ang >= 0:
+		steps = math.floor((s_per_t_1/360)*ang)
+	if ang < 0:
+		steps = math.ceil((s_per_t_1/360)*ang)
+	angle_t = angle_t + ang
 	steps_t = steps_t + steps
-	diff = (s_per_t_1/360)*angle - steps_t
+	diff = (s_per_t_1/360)*angle_t - steps_t
+	if math.floor(diff):
+		steps = steps + math.floor(diff)
+		steps_t = steps_t + math.floor(diff)
+	print(diff)
 #difference between steps taken and steps we want to take = (steps per rotation/degrees in one turn)*total angle - total steps
 	if steps < 0:
 		steps = -steps
