@@ -4,7 +4,8 @@ import math
 angle = 0
 steps_t = 0
 s_per_t_1 = 200
-
+def setup(ser):
+	test.setup(ser)
 def turn(ang):
 	global angle
 	global steps_t
@@ -31,3 +32,7 @@ def turn2(start,stop,reverse):
 		test.write(0,0,0,0,0,0,0,1)
 	if reverse:
 		test.write(0,0,0,0,0,0,1,0)
+def set(laser):
+	test.set(laser)
+def get():
+	return test.get()

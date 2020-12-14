@@ -1,3 +1,4 @@
+import motor
 import serial
 import os
 import predict
@@ -5,8 +6,10 @@ import tkinter as tk
 import sys
 import getopt
 import laser
+motor_mode = True # false = press = execute release = stop, true = seprate buttons
 s = serial.Serial("/dev/ttyACM0",115200, timeout=1)
 laser.setup(s)
+motor.setup(s)
 version = "v1.0"
 laser_status = False
 # can have dual tags, keep that in mind, might break stuff later
@@ -31,8 +34,12 @@ root = tk.Tk()
 root.title("globe GUI")
 frame = tk.Frame(root)
 frame.pack(fill=tk.BOTH, expand=True)
+frame2 = tk.Frame(root)
+frame2.pack(fill=tk.BOTH, expand=True, side=tk.BOTTOM)
 lat = tk.StringVar()
 long = tk.StringVar()
+def q():
+	window.destroy()
 def p():
 	sate = e1.get()
 	predict.setup_list()
@@ -56,10 +63,25 @@ def g():
 	if not laser_status:
 		laser.off()
 	print(laser_status)
-listbox = tk.Listbox(root)
+def e():
+	a = laser.get()
+	motor.set(a)
+	motor.turn(int(e2.get()))
+def forward(event=None):
+	if event:
+		motor.turn2(1,0,0)
+		print("forward")
+def backward(event=None):
+	if event:
+		motor.turn2(0,0,1)
+		print("backward")
+def stop(event=None):
+	motor.turn2(0,1,0)
+	print("stop")
+listbox = tk.Listbox(frame2)
 listbox.pack(side = tk.LEFT, fill = tk.BOTH)
-scrollbar = tk.Scrollbar(root)
-scrollbar.pack(side = tk.LEFT, fill = tk.BOTH)
+scrollbar = tk.Scrollbar(frame2)
+scrollbar.pack(side = tk.LEFT, fill=tk.Y)
 listbox.config(yscrollcommand = scrollbar.set)
 scrollbar.config(command = listbox.yview)
 tk.Label(frame,text="Search for:").grid(row=0, column=0)
@@ -69,8 +91,36 @@ tk.Label(frame,text="   longitude: ").grid(row=2, column=0)
 tk.Label(frame,textvariable=long).grid(row=2, column=1)
 e1 = tk.Entry(frame)
 e1.grid(row=0, column=1)
+
 tk.Button(frame, text='Quit', command=root.destroy).grid(row=3, column=0, sticky=tk.W, pady=4) #root.destroy
 tk.Button(frame, text='Show', command=p).grid(row=3, column=1, sticky=tk.W, pady=4)
 tk.Button(frame, text='track selected', command=t).grid(row=3, column=2, sticky=tk.W, pady=4) 
-tk.Button(frame, text='laser toggle', command=g).grid(row=3, column=3, sticky=tk.W, pady=4)
+if debug:
+	window = tk.Toplevel(root)
+	tk.Label(window,text="motor 1(stepper):").grid(row=3,column=0)
+	tk.Label(window,text="motor 2(DC):").grid(row=6,column=0)
+	tk.Label(window,text="laser:").grid(row=1,column=0)
+	tk.Button(window, text='toggle', command=g).grid(row=2, column=0)
+	tk.Button(window, text='exit window', command=q).grid(row=0, column=0)
+	window.title("debug window")
+	global e2
+	e2 = tk.Entry(window)
+	e2.grid(row=4,column=1)
+	tk.Label(window,text="angle to turn:").grid(row=4,column=0)
+	tk.Button(window, text='execute', command=e).grid(row=5, column=0)
+	a = tk.Button(window, text='forward')
+	a.grid(row=7, column=0)
+	b = tk.Button(window, text='backward')
+	b.grid(row=7, column=1)
+	if not motor_mode:
+		a.bind('<ButtonPress-1>',forward)
+		a.bind('<ButtonRelease-1>',stop)
+		b.bind('<ButtonPress-1>',backward)
+		b.bind('<ButtonRelease-1>',stop)
+	else:
+		c = tk.Button(window, text='stop')
+		c.grid(row=7, column=2)
+		a.bind('<ButtonPress-1>',forward)
+		b.bind('<ButtonPress-1>',backward)
+		c.bind('<ButtonPress-1>',stop)
 tk.mainloop()
