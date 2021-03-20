@@ -25,6 +25,8 @@ def write(pin2=0,pin3=0,pin4=0,motor1_forward=0,motor1_reverse=0,motor2_forward=
 	s.write(bytes([z]))
 	s.write(bytes([y]))
 	s.flush()
+	print(bytes([z]))
+	print(bytes([y]))
 def get():
 	global laser
 	return laser
