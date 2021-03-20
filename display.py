@@ -6,8 +6,7 @@ import tkinter as tk
 import sys
 import getopt
 import laser
-#s = serial.Serial("/dev/ttyACM0",115200, timeout=1) # real serial
-s = serial.Serial("/dev/ttyS0",115200, timeout=1) # fake for testing
+s = serial.Serial("/dev/ttyACM0",115200, timeout=1) # real serial
 laser.setup(s)
 motor.setup(s)
 version = "v1.0"
