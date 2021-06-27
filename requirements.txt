@@ -1,4 +1,4 @@
 pyephem
 sgp4
-serial
+pyserial
 
