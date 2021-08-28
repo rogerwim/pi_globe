@@ -16,28 +16,27 @@
  */
 #include <Stepper.h>
 float rot = 0.0;
-const int stepsPerRevolution = 1440;  // change this to fit the number of steps per revolution
+const float stepsPerRevolution = 1540.0;  // change this to fit the number of steps per revolution
 // for your motor
 
 // initialize the stepper library on pins 8 through 11:
 Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
-int home() {
-  if(analogRead(A0) > 0) {
-    return 0;  
-  }
-  int count = 0;
-  while(analogRead(A0) < 10) {
+void home() {
+
+  while(analogRead(A0) < 500) {
     myStepper.step(1);
-    count++;
+
   }
-  return count;
+
 }
-void step2() {
-  long ang = 360;
-  long steps = ang/(360/stepsPerRevolution);
-  Serial.println(steps);
+void goto_ang(long steps) {
+  home();
   myStepper.step(steps);
 }
+void step2(long steps) {
+  myStepper.step(steps);
+}
+
 void stop() {
   digitalWrite(8,0);
   digitalWrite(9,0);
@@ -49,16 +48,39 @@ void setup() {
   myStepper.setSpeed(7);
   // initialize the serial port:
   Serial.begin(9600);
+  delay(5000);
+  stop();
   home();
 }
-
+int command, num1,num2;
+long steps;
 void loop() {
   // step one revolution  in one direction:
-  //int a = home();
-  //if(a != 0) {
-  //  Serial.println(a);  
-  //}
-  step2();
-  delay(1000);
-  //stop();
+  if (Serial.available() >= 8) { // COMMAND,UNUSED,DATA,DATA,UNUSED,UNUSED,UNUSED,UNUSED
+  
+  command = Serial.read();
+  Serial.read();
+  num1 = Serial.read();
+  num2 = Serial.read();
+  Serial.read();
+  Serial.read();
+  Serial.read();
+  Serial.read();
+  if(command & 3) {
+    steps = num1*256+num2;
+    if(command & 1) {
+      goto_ang(steps);
+      stop();
+    }
+    if(command & 2) {
+      step2(steps);
+      stop();
+    }
+  }
+  if(command & 4 ) {
+    home();
+    stop();
+  }
+  Serial.write(255);
+  }
 }

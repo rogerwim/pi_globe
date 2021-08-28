@@ -1,14 +1,11 @@
-import motor
 import serial
+import control
 import os
 import predict
 import tkinter as tk
 import sys
 import getopt
-import laser
-s = serial.Serial("/dev/ttyACM1",115200, timeout=1) # real serial
-laser.setup(s)
-motor.setup(s)
+s = serial.Serial("/dev/ttyUSB0",115200, timeout=1) # real serial
 version = "v1.0"
 laser_status = False
 # can have dual tags, keep that in mind, might break stuff later
@@ -59,29 +56,17 @@ def t():
 	print("latitude:",loc[0],"longitude:",loc[1])
 	lat.set("{:.4f}".format(loc[0]))
 	long.set("{:.4f}".format(loc[1]))
+	control.goto(loc)
 def g():
-	global laser_status
-	laser_status = not laser_status
-	if laser_status:
-		laser.on()
-	if not laser_status:
-		laser.off()
-	print(laser_status)
+    pass
 def e():
-	a = laser.get()
-	motor.set(a)
-	motor.turn(int(e2.get()))
+    pass
 def forward(event=None):
-	if event:
-		motor.turn2(1,0,0)
-		print("forward")
+    pass
 def backward(event=None):
-	if event:
-		motor.turn2(0,0,1)
-		print("backward")
+    pass
 def stop(event=None):
-	motor.turn2(0,1,0)
-	print("stop")
+    pass
 listbox = tk.Listbox(frame2)
 listbox.pack(side = tk.LEFT, fill = tk.BOTH)
 scrollbar = tk.Scrollbar(frame2)

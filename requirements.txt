@@ -1,4 +1,0 @@
-pyephem
-sgp4
-pyserial
-
