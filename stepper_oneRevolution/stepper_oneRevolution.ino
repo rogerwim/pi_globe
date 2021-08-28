@@ -49,8 +49,9 @@ void setup() {
   // initialize the serial port:
   Serial.begin(9600);
   delay(5000);
-  stop();
+  
   home();
+  stop();
 }
 int command, num1,num2;
 long steps;
