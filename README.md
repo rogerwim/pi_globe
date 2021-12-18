@@ -1,7 +1,7 @@
-pi based globe
+TODO for pi based globe
 ========
 
-CODE:
+Code:
 ======================
 Code to link movement of laser and satellite coordinates
 
