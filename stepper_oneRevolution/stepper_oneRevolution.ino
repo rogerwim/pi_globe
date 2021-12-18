@@ -15,6 +15,15 @@
 
  */
 #include <Stepper.h>
+#include <Servo.h>
+
+Servo myservo;  // create servo object to control a servo
+// twelve servo objects can be created on most boards
+
+int pos = 0;    // variable to store the servo position
+
+  // attaches the servo on pin 9 to the servo object
+
 float rot = 0.0;
 const float stepsPerRevolution = 1540.0;  // change this to fit the number of steps per revolution
 // for your motor
@@ -46,10 +55,9 @@ void stop() {
 void setup() {
   // set the speed at 60 rpm:
   myStepper.setSpeed(7);
+  myservo.attach(6);
   // initialize the serial port:
   Serial.begin(9600);
-  delay(5000);
-  
   home();
   stop();
 }
@@ -69,18 +77,21 @@ void loop() {
   Serial.read();
   if(command & 3) {
     steps = num1*256+num2;
-    if(command & 1) {
+    if((command & 1) > 0) {
       goto_ang(steps);
       stop();
     }
-    if(command & 2) {
+    if((command & 2) > 0) {
       step2(steps);
       stop();
     }
   }
-  if(command & 4 ) {
+  if((command & 4) > 0) {
     home();
     stop();
+  }
+  if((command & 8) > 0) {
+    myservo.write(num2);
   }
   Serial.write(255);
   }
