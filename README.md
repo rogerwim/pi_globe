@@ -3,12 +3,16 @@ pi based globe
 TODO:
 
 CODE:
+
 Code to link movement of laser and satellite coordinates
 
 
 Physical:
+
 Tensioning tool
+
 New box
+
 Buy power source
 
 Information:
