@@ -56,15 +56,15 @@ def r():
     global tracking
     tracking = False
 def g():
-    pass
+    global laser_status
+    laser_status = not laser_status
+    control.set_laser(int(laser_status))
 def e():
-    pass
-def forward(event=None):
-    pass
-def backward(event=None):
-    pass
-def stop(event=None):
-    pass
+    steps = int(e2.get())
+    control.step_without_home(steps)
+def servo():
+    steps = int(e3.get())
+    control.servo_goto(steps)
 listbox = tk.Listbox(frame2)
 listbox.pack(side = tk.LEFT, fill = tk.BOTH)
 scrollbar = tk.Scrollbar(frame2)
@@ -86,7 +86,7 @@ tk.Button(frame, text='stop tracking', command=r).grid(row=3, column=4, sticky=t
 if debug:
     window = tk.Toplevel(root)
     tk.Label(window,text="motor 1(stepper):").grid(row=3,column=0)
-    tk.Label(window,text="motor 2(DC):").grid(row=6,column=0)
+    tk.Label(window,text="servo:").grid(row=6,column=0)
     tk.Label(window,text="laser:").grid(row=1,column=0)
     tk.Button(window, text='toggle', command=g).grid(row=2, column=0)
     tk.Button(window, text='exit window', command=q).grid(row=0, column=0)
@@ -96,21 +96,11 @@ if debug:
     e2.grid(row=4,column=1)
     tk.Label(window,text="angle to turn:").grid(row=4,column=0)
     tk.Button(window, text='execute', command=e).grid(row=5, column=0)
-    a = tk.Button(window, text='forward')
-    a.grid(row=7, column=0)
-    b = tk.Button(window, text='backward')
-    b.grid(row=7, column=1)
-    if not motor_mode:
-        a.bind('<ButtonPress-1>',forward)
-        a.bind('<ButtonRelease-1>',stop)
-        b.bind('<ButtonPress-1>',backward)
-        b.bind('<ButtonRelease-1>',stop)
-    else:
-        c = tk.Button(window, text='stop')
-        c.grid(row=7, column=2)
-        a.bind('<ButtonPress-1>',forward)
-        b.bind('<ButtonPress-1>',backward)
-        c.bind('<ButtonPress-1>',stop)
+    global e3
+    e3 = tk.Entry(window)
+    e3.grid(row=7,column=1)
+    tk.Label(window,text="angle to turn:").grid(row=7,column=0)
+    tk.Button(window, text='execute', command=servo).grid(row=8, column=0)
 import time
 while 1:
     root.update_idletasks()
