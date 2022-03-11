@@ -46,3 +46,5 @@ def home():
 def servo_goto(ang):
     ang = ang + 90
     send_command([0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],0,ang,0,0,0,0)
+def set_laser(state):
+    send_command([0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],0,state,0,0,0,0)

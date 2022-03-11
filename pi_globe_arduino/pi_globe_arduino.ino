@@ -70,6 +70,7 @@ void setup() {
   Serial.begin(9600);
   home();
   stop();
+  pinMode(7,OUTPUT);
 }
 int command, num1,num2;
 long steps;
