@@ -33,7 +33,7 @@ def filter_list(filt):
 			matches.append(i)
 	for e in matches:
 		output.append(e)
-def track(sate):
+def track(sate,date):
 	for a in c:
 		if a[1] == int(sate):
 			temp = a[1]
@@ -41,5 +41,5 @@ def track(sate):
 	line2 = line2s[temp]
 	line3 = line3s[temp]
 	s = satelite.load(line1,line2,line3)
-	pos = satelite.get_sat_pos(s)
+	pos = satelite.get_sat_pos(s,date)
 	return (pos[0],pos[1])

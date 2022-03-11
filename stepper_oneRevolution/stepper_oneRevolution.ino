@@ -25,18 +25,40 @@ int pos = 0;    // variable to store the servo position
   // attaches the servo on pin 9 to the servo object
 
 float rot = 0.0;
-const float stepsPerRevolution = 1540.0;  // change this to fit the number of steps per revolution
+const float stepsPerRevolution = 1440.0;  // change this to fit the number of steps per revolution
 // for your motor
 
 // initialize the stepper library on pins 8 through 11:
 Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
-void home() {
+long long count = 0;
+long long rev = 0;
+bool r;
+void fake_home() {
 
-  while(analogRead(A0) < 500) {
+  while(true) {
     myStepper.step(1);
+    count++;
+    if(analogRead(A0) > 500 and not r) {
+      r = true;
+      rev++;
+    } else if(analogRead(A0) < 500) {
+      r = false;
+    }
+    if(count % 100 == 0) {
+    Serial.print((long)rev);
+    Serial.print(" ");
+    Serial.print((long)count);
+    Serial.print(" ");
+    Serial.println((float)count/(float)rev);
+    }
+    }
 
   }
 
+void home() {
+  while(analogRead(A0) < 500) {
+    myStepper.step(1);
+  }
 }
 void goto_ang(long steps) {
   home();
@@ -54,7 +76,7 @@ void stop() {
 }
 void setup() {
   // set the speed at 60 rpm:
-  myStepper.setSpeed(7);
+  myStepper.setSpeed(12);
   myservo.attach(6);
   // initialize the serial port:
   Serial.begin(9600);
@@ -92,6 +114,13 @@ void loop() {
   }
   if((command & 8) > 0) {
     myservo.write(num2);
+  }
+  if((command & 16) > 0) {
+    if(num2) {
+      digitalWrite(7,HIGH);
+    } else {
+      digitalWrite(7,LOW);
+    }
   }
   Serial.write(255);
   }

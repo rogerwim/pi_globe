@@ -35,8 +35,8 @@ def c(d, m, s):
 	else:
 		dd = float(d) + float(m)/60 + float(s)/3600
 		return dd
-def get_sat_pos(sat):
-	sat.compute()
+def get_sat_pos(sat,date):
+	sat.compute(date)
 	a = str(sat.sublat)
 	b = str(sat.sublong)
 	a = a.split(":")

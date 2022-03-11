@@ -1,6 +1,6 @@
 import serial
-steps_per_rev = 1540
-arduino = serial.Serial('/dev/ttyUSB1',9600)
+steps_per_rev = 1440
+arduino = serial.Serial('/dev/ttyUSB0',9600)
 def bits_to_byte(bits):
     byte  = 0
     if type(bits) != list:

@@ -5,6 +5,7 @@ import predict
 import tkinter as tk
 import sys
 import getopt
+import datetime
 version = "v1.0"
 laser_status = False
 # can have dual tags, keep that in mind, might break stuff later
@@ -115,19 +116,34 @@ while 1:
     root.update_idletasks()
     root.update()
     time.sleep(1/15)
+    owe = 0
     if tracking:
         prev_loc = [0,0]
-        for i in range(5):
-            index = listbox.curselection()[0]
-            satelite = predict.output[index]
+        control.home()
+        for i in range(10):
+            date = datetime.datetime(1,1,1).now()
+            index = listbox.curselection()
+            if index:
+                index = index[0]
+                satelite = predict.output[index]
+            else:
+                satelite = ['ISS (ZARYA)', 80]
             print(satelite)
-            loc = predict.track(satelite[1])
+            loc = predict.track(satelite[1],date)
             delta_long = loc[1] - prev_loc[1]
+            owe += delta_long
             print("latitude:",loc[0],"longitude:",loc[1])
             lat.set("{:.4f}".format(loc[0]))
             long.set("{:.4f}".format(loc[1]))
-            control.step_without_home(delta_long)
+            if owe > 2:
+                control.step_without_home(-owe)
+                owe -= owe
+            print(f"OWE {owe} STEPS")
             control.servo_goto(int(loc[0]))
             time.sleep(10)
             prev_loc = loc
+            root.update_idletasks()
+            root.update()
+            if not tracking:
+                break
         control.home()
