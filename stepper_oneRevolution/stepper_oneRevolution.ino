@@ -1,19 +1,9 @@
-
-/*
- Stepper Motor Control - one revolution
-
- This program drives a unipolar or bipolar stepper motor.
- The motor is attached to digital pins 8 - 11 of the Arduino.
-
- The motor should revolve one revolution in one direction, then
- one revolution in the other direction.
+// pins 8 through 11 stepper control
+// pin 7 laser
+// pin 6 servo
+// pin A0 reed switch
 
 
- Created 11 Mar. 2007
- Modified 30 Nov. 2009
- by Tom Igoe
-
- */
 #include <Stepper.h>
 #include <Servo.h>
 
@@ -21,8 +11,6 @@ Servo myservo;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
 
 int pos = 0;    // variable to store the servo position
-
-  // attaches the servo on pin 9 to the servo object
 
 float rot = 0.0;
 const float stepsPerRevolution = 1440.0;  // change this to fit the number of steps per revolution
